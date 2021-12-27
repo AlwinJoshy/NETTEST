@@ -23,11 +23,18 @@ public class QuickDataSender : MonoBehaviour
         dataDisplay = "";
     }
 
+    void OnDistroy()
+    {
+        clientObj.Close();
+    }
+
     void RecieveData(byte[] data)
     {
         int a = 0;
-        dataDisplay += BitwiseRead.ReadInt(data, ref a) + "|";
-        // CheckPattern(int.Parse(BitwiseRead.ReadChar(data, ref a).ToString()));
+        int recivedChar = BitwiseRead.ReadInt(data, ref a);
+        dataDisplay += recivedChar + "|";
+        CustomLog.Log(recivedChar.ToString() + "|");
+        CheckPattern(recivedChar);
     }
 
     int nextNumber;
@@ -47,7 +54,7 @@ public class QuickDataSender : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            DirectSend(0, 100);
+            DirectSend(0, 700);
             //StartCoroutine(CountSend());
         }
 
@@ -56,14 +63,13 @@ public class QuickDataSender : MonoBehaviour
             Debug.Log("Chain Broken...");
             showError = false;
         }
-
     }
 
     void DirectSend(int start, int length)
     {
         for (int i = start; i < start + length; i++)
         {
-            DataPacket dataPacket = DataPacket.NewPacket(1024);
+            DataPacket dataPacket = DataPacket.NewPacket(64500);
             dataPacket.Write(i);
             clientObj.SendBytes(dataPacket);
         }

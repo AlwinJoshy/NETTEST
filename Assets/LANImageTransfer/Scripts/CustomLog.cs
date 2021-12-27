@@ -12,7 +12,8 @@ public class CustomLog : MonoBehaviour
 
     public static void Log(string log)
     {
-        logText += log + '\n';
+        //logText += log + '\n';
+        logText += log;
         updateText = true;
     }
 
@@ -23,6 +24,11 @@ public class CustomLog : MonoBehaviour
             displayText.text = logText;
             updateText = false;
         }
+    }
+
+    void OnDisable()
+    {
+        logText = "";
     }
 
 }

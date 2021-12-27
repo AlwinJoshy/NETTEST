@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Concurrent;
 
 public class DataPacket
 {
     int index = 0;
     byte[] dataList;
-    static Queue<DataPacket> dataPackets = new Queue<DataPacket>();
+    static ConcurrentQueue<DataPacket> dataPackets = new ConcurrentQueue<DataPacket>();
 
     public static DataPacket NewPacket(int size)
     {
@@ -20,7 +21,7 @@ public class DataPacket
 
         if (dataPackets.Count > 0)
         {
-            packet = dataPackets.Dequeue();
+            dataPackets.TryDequeue(out packet);
             if (packet.dataList.Length != size)
             {
                 MakeNewPacket();
@@ -62,6 +63,11 @@ public class DataPacket
     {
         dataList[index] = (byte)value;
         index += 2;
+    }
+
+    public int FindWriteSpace()
+    {
+        return dataList.Length - index;
     }
 
 }
