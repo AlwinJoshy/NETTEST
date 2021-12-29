@@ -7,7 +7,7 @@ public class ImageExtractor : MonoBehaviour, IImageExtract
 {
 
     [SerializeField] RawImage imageTex;
-    byte[] imageDataWriteArray = new byte[32768];
+    byte[] imageDataWriteArray = new byte[259200];
     int writeIndex = 0;
 
     Texture2D tex;
@@ -15,7 +15,7 @@ public class ImageExtractor : MonoBehaviour, IImageExtract
 
     void Awake()
     {
-        tex = new Texture2D(128, 128, TextureFormat.RGB565, false);
+        tex = new Texture2D(480, 270, TextureFormat.RGB565, false);
     }
 
     public void ExtractImage(byte[] data)
@@ -26,7 +26,16 @@ public class ImageExtractor : MonoBehaviour, IImageExtract
         int packetCount = BitwiseRead.ReadInt(data, ref a);
         int readLength = BitwiseRead.ReadInt(data, ref a);
 
-        BitwiseRead.ReadIntoArray(data, a, ref imageDataWriteArray, ref packetID, readLength);
+        byte[] comData = new byte[readLength];
+
+        int num = 0;
+        BitwiseRead.ReadIntoArray(data, a, ref comData, ref num, readLength);
+
+        comData = Ziper.Decompress(comData);
+
+        BitwiseRead.ReadIntoArray(comData, 0, ref imageDataWriteArray, ref packetID, comData.Length);
+
+
 
         /*
         if(packetID + 1 == packetCount)

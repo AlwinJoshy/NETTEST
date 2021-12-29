@@ -50,7 +50,7 @@ public class ImageToByte : MonoBehaviour
             byte[] imageData = imageBytes.ToArray();
             byte[] comData = Ziper.Compress(imageData);
             byteLength = imageData.Length + " | " + comData.Length;
-            OnBytesReady.Invoke(imageData);
+            OnBytesReady.Invoke(comData);
         }
     }
 }

@@ -16,6 +16,8 @@ Shader "Unlit/TexManage"
             #pragma fragment frag
             #include "UnityCG.cginc"
 
+            #define colorPres 
+
             struct appdata
             {
                 float4 vertex : POSITION;
@@ -39,10 +41,21 @@ Shader "Unlit/TexManage"
                 return o;
             }
 
+            fixed DeresNumber(float num)
+            {
+                num = floor(num * 10)/10;
+                return num;
+            }
+
+            fixed4 BreakColorRes(float4 col)
+            {
+                return fixed4(DeresNumber(col.x), DeresNumber(col.y), DeresNumber(col.z), col.a);
+            }
+
             fixed4 frag (v2f i) : SV_Target
             {
                 fixed4 col = tex2D(_MainTex, fixed2(i.uv.x, 1 - i.uv.y));
-                return col;
+                return BreakColorRes(col);
             }
             ENDCG
         }
