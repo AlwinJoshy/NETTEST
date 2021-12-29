@@ -36,14 +36,18 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\LANImageTransfer\Scripts\Script\ImageTransmitter.cs" />
+     <Compile Include="Assets\LANImageTransfer\Scripts\Script\ImageToByte.cs" />
+     <Compile Include="Assets\LANImageTransfer\Scripts\Script\CustomUnityEvents.cs" />
      <Compile Include="Assets\LANImageTransfer\Scripts\Script\IClient.cs" />
      <Compile Include="Assets\LANImageTransfer\Scripts\Script\CustomLog.cs" />
      <Compile Include="Assets\LANImageTransfer\Scripts\Script\DataPacket.cs" />
      <Compile Include="Assets\LANImageTransfer\Scripts\Script\QuickDataSender.cs" />
+     <Compile Include="Assets\LANImageTransfer\Scripts\Script\IImageExtract.cs" />
      <Compile Include="Assets\LANImageTransfer\Scripts\Script\UDPClientTest.cs" />
+     <Compile Include="Assets\LANImageTransfer\Scripts\Script\ImageExtractor.cs" />
      <Compile Include="Assets\LANImageTransfer\Scripts\Script\BitwiseRead.cs" />
-     <Compile Include="Assets\LANImageTransfer\Scripts\Script\ImageToByte.cs" />
-     <Compile Include="Assets\LANImageTransfer\Scripts\Script\CustomUnityEvents.cs" />
+     <Compile Include="Assets\LANImageTransfer\Scripts\Script\Ziper.cs" />
      <None Include="Assets\LANImageTransfer\Scripts\TexManage.shader" />
     <Reference Include="UnityEngine">
         <HintPath>C:\UnityEditors\2020.3.24f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

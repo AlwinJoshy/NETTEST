@@ -6,32 +6,38 @@ using UnityEngine.UI;
 
 public class ImageToByte : MonoBehaviour
 {
-    private RenderTexture renderTexture, compressTex;
+    public RenderTexture renderTexture, compressTex, textTex;
     [SerializeField] private RawImage screenRenderImageUI;
     [SerializeField] Material imageManageMat;
 
     [SerializeField] ByteArrayUnityEvent OnBytesReady;
 
-    [SerializeField] int byteLength;
+    [SerializeField] string byteLength;
 
     void Start()
     {
         renderTexture = new RenderTexture(Screen.width, Screen.height, 0);
-        compressTex = new RenderTexture(Screen.width / 2, Screen.height / 2, 0);
+        compressTex = new RenderTexture(Screen.width / 4, Screen.height / 4, 0);
         screenRenderImageUI.texture = compressTex;
-        
+
     }
+
+    float nextUpdate = 0;
 
     void FixedUpdate()
     {
-        StartCoroutine(CaptureSCreen());
+        if (Time.time > nextUpdate)
+        {
+            StartCoroutine(CaptureSCreen());
+            nextUpdate = Time.time + 1 / 5;
+        }
     }
     IEnumerator CaptureSCreen()
     {
         yield return new WaitForEndOfFrame();
         ScreenCapture.CaptureScreenshotIntoRenderTexture(renderTexture);
         Graphics.Blit(renderTexture, compressTex, imageManageMat);
-        AsyncGPUReadback.Request(compressTex, 0, TextureFormat.RGB24, ReadbackCompleted);
+        AsyncGPUReadback.Request(compressTex, 0, TextureFormat.RGB565, ReadbackCompleted);
     }
 
     void ReadbackCompleted(AsyncGPUReadbackRequest request)
@@ -42,7 +48,8 @@ public class ImageToByte : MonoBehaviour
         using (var imageBytes = request.GetData<byte>())
         {
             byte[] imageData = imageBytes.ToArray();
-            byteLength = imageData.Length;
+            byte[] comData = Ziper.Compress(imageData);
+            byteLength = imageData.Length + " | " + comData.Length;
             OnBytesReady.Invoke(imageData);
         }
     }

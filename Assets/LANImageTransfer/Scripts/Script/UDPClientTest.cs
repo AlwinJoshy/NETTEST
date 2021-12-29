@@ -55,18 +55,22 @@ public class UDPClientTest : IClient
     public void SendBytes(DataPacket packet)
     {
         dataPackets.Enqueue(packet);
+        //SendPacket(packet);
     }
 
     async Task TransmitionEngine()
     {
         while (transmitData)
         {
-            if (dataPackets.Count > 0)
+            for (int i = 0; i < 10; i++)
             {
-                DataPacket packet = dataPackets.Dequeue();
-                await SendPacket(packet);
+                if (dataPackets.Count > 0)
+                {
+                    DataPacket packet = dataPackets.Dequeue();
+                    await SendPacket(packet);
+                }
+                else await Task.Delay(1);
             }
-            else await Task.Delay(1);
         }
     }
 

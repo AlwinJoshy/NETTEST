@@ -17,8 +17,8 @@ public class QuickDataSender : MonoBehaviour
     void Start()
     {
         clientObj = new UDPClientTest();
-        endPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 4546);
-        clientObj.Init(4546, endPoint);
+        endPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 4545);
+        clientObj.Init(4545, endPoint);
         clientObj.RegisterListener(RecieveData);
         dataDisplay = "";
     }

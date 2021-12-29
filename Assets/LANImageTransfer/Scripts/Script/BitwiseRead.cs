@@ -17,4 +17,22 @@ public static class BitwiseRead
         index += 1;
         return (char)((data[x] & 0xff));
     }
+
+    static public void ReadIntoArray(byte[] readArray, int readIndex, ref byte[] writeArray, ref int writeIndex, int writeLength)
+    {
+        try
+        {
+            for (int i = 0; i < writeLength; i++)
+            {
+                writeArray[writeIndex + i] = readArray[readIndex + i];
+            }
+            writeIndex += writeLength;
+        }
+        catch (System.Exception)
+        {
+
+            CustomLog.Log(writeArray.Length.ToString());
+        }
+
+    }
 }
